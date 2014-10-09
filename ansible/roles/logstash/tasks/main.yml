@@ -1,0 +1,29 @@
+# Install logstash
+- name: Create Logstash dir
+  file: path="{{ logstash_install_dir }}" owner=root group=root mode=0755 state=directory
+
+- name: Fetch Logstash Jar
+  get_url: url={{ logstash_url }}-{{ logstash_version }}-flatjar.jar dest={{ logstash_install_dir }}/logstash-{{ logstash_version }}-flatjar.jar
+
+# Now create the /etc/logstash.d/ config files
+- name: Create main Logstash dir
+  file: path="/etc/logstash.d/" owner=root group=root mode=0755 state=directory
+
+- name: Create main Logstash indexer dir
+  file: path="/etc/logstash.d/indexer/" owner=root group=root mode=0755 state=directory
+
+- name: Create Logstash Indexer input configuration
+  template: src=logstash-indexer/input.j2 dest="/etc/logstash.d/indexer/input.conf" owner=root group=root mode=0644
+
+- name: Create Logstash Indexer filters configuration
+  template: src=logstash-indexer/filters.j2 dest="/etc/logstash.d/indexer/filters.conf" owner=root group=root mode=0644
+
+- name: Create Logstash Indexer output configuration
+  template: src=logstash-indexer/output.j2 dest="/etc/logstash.d/indexer/output.conf" owner=root group=root mode=0644
+
+
+# And configure supervisor to monitor our logstash indexer
+- name: Create supervisor config for the logstash indexer
+  template: src=supervisor/logstash_indexer.j2 dest="/etc/supervisor/conf.d/logstash_indexer.conf" owner=root group=root mode=0644
+  notify:
+   - restart supervisor

@@ -1,0 +1,5 @@
+# Url to fetch elasticsearch from
+elasticsearch_url: "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch"
+
+# Version to install
+elasticsearch_version: "0.90.9"

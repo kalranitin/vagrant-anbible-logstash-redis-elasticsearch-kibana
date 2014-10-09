@@ -1,0 +1,10 @@
+- name: Install OpenJDK
+  apt: pkg="openjdk-7-jre" update_cache=yes
+
+- name: Fetch Elasticsearch package (.deb)
+  get_url: url={{ elasticsearch_url }}-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb
+
+- name: Install Elasticsearch from package
+  command: dpkg -i --skip-same-version /tmp/elasticsearch-{{ elasticsearch_version }}.deb
+  register: dpkg_result
+  changed_when: "dpkg_result.stdout.startswith('Selecting')" # see http://stackoverflow.com/questions/19127493

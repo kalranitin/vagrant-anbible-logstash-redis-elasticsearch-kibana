@@ -1,0 +1,8 @@
+[program:logstash-indexer]
+process_name=logstash-indexer
+command=/usr/bin/java -jar {{ logstash_install_dir }}/logstash-{{ logstash_version }}-flatjar.jar agent -f /etc/logstash.d/indexer/
+user=root
+startretries=3
+redirect_stderr=true
+std_out_logfile=NONE
+startsecs=3

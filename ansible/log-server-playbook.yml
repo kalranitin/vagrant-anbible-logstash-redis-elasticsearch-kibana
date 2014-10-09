@@ -1,0 +1,16 @@
+---
+- name: log-server
+  hosts: all
+  sudo: true
+
+  # Include the first vars file we find, so create your own var/defaults.yml to overrule our own settings
+  vars_files:
+   - [ vars/defaults.yml, vars/defaults.dist.yml ]
+
+  roles:
+    - { role: supervisord }
+    - { role: redis }
+    - { role: elasticsearch }
+    - { role: logstash }
+    - { role: apache }
+    - { role: kibana }

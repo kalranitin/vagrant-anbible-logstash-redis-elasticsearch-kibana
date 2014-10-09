@@ -1,0 +1,10 @@
+- name: Install Apache
+  apt: pkg={{ item }} state=installed
+  with_items:
+   - apache2
+   - python-passlib
+
+- name: Disable default vhost
+  command: /usr/sbin/a2dissite default
+  notify:
+   - reload apache
