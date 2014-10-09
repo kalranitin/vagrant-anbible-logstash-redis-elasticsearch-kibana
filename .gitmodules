@@ -1,3 +1,0 @@
-[submodule "ansible"]
-	path = ansible
-	url = https://github.com/MarijnKoesen/anbible-logstash-redis-elasticsearch-kibana.git
